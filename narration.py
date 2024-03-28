@@ -6,20 +6,23 @@ import os
  
 api_key = ""
 
- 
+image_folder = "video"
+photo_extensions = ['.jpg']
+photo_count = sum(len(files) for _, _, files in os.walk(image_folder) if any(file.endswith(ext) for ext in photo_extensions))
+
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
 
  
-def generate_image_paths(folder_path, num_images):
-    return [os.path.join(folder_path, f"frame{i}.jpg") for i in range(11, 11 + num_images)]
+def generate_image_paths(folder_path, photo_count):
+    return [os.path.join(folder_path, f"frame{i}.jpg") for i in range(1, 1 + photo_count)]
 
  
-image_folder = "video"
+
 
  
-base64_images = [encode_image(image_path) for image_path in generate_image_paths(image_folder, 10)]
+base64_images = [encode_image(image_path) for image_path in generate_image_paths(image_folder, photo_count)]
 
 headers = {
     "Content-Type": "application/json",
