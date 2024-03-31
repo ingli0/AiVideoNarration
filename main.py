@@ -1,15 +1,16 @@
 from cut import extract_frames
-from narration import generate_narration
+from narration import generate_narration,count_photos
 from texttospeeachopenai import text_to_speech
 from finalVideo import merge_audio_video
 
 api_key = ""
 
 def generate_narrated_video(video_path):
-    
+
     image_folder = 'video'
     extract_frames(video_path, image_folder)
-    generate_narration(api_key, image_folder)
+    photosCount=count_photos(image_folder)
+    generate_narration(api_key, image_folder,photosCount)
     text_to_speech(api_key)
     merge_audio_video(video_path, 'output.mp3', 'final.mp4')
 
